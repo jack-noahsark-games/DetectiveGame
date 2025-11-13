@@ -20,38 +20,30 @@
                 if (approach == "g")
                 {
                     Console.WriteLine($"{Name} takes a gentle tone...");
-                    moodImpact = +2; // gentle tone slightly improves their mood
                 }
                 else if (approach == "d")
                 {
                     Console.WriteLine($"{Name} takes a direct tone...");
-                    moodImpact = -10; // direct tone makes them tense
                 }
                 else
                 {
                     Console.WriteLine($"{Name} hesitates and ends up mumbling an indecipherable jumble of words...");
-                    moodImpact = 0;
                 }
             if (person is Witness)
             {
                 if (approach == "g")
                 {
                     Console.WriteLine($"{Name} takes a gentle tone...");
-                    moodImpact += 5;
                 }
 
                 else if (approach == "d")
                 {
                     Console.WriteLine($"{Name} takes a direct tone...");
-                    moodImpact = -5;
                 }
             }
 
-            // Apply the change to the person’s mood
-            person.ChangeMood(moodImpact);
-
             // Let the person respond, passing the mood impact
-            person.RespondTo(this, moodImpact);
+            person.RespondTo(this, moodImpact, approach);
 
             // Adjust Sam’s own reaction depending on how the talk went
             AdjustAfterQuestion(person, moodImpact);

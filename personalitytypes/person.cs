@@ -46,7 +46,7 @@
         }
 
         // Each person can respond when questioned
-        public virtual void RespondTo(Person questioner, int moodImpact)
+        public virtual void RespondTo(Person questioner, int moodImpact, string approach)
         {
             Console.WriteLine($"{Name} says: 'Hello {questioner.Name}.'");
         }
