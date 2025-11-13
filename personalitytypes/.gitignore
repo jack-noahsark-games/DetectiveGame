@@ -1,0 +1,16 @@
+# Visual Studio / .NET ignores
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.exe
+*.dll
+
+# Visual Studio settings
+.vs/
+
+# Build outputs
+Debug/
+Release/
