@@ -2,7 +2,7 @@
 {
 
 
-    class Person
+    public abstract class Person
     {
         public string Name { get; set; }
         public int Age { get; set; }
@@ -46,8 +46,9 @@
         }
 
         // Each person can respond when questioned
-        public virtual void RespondTo(Person questioner, int moodImpact, string approach)
+        public virtual void RespondTo(Person questioner, string approach, out int moodImpact)
         {
+            moodImpact = 0;
             Console.WriteLine($"{Name} says: 'Hello {questioner.Name}.'");
         }
 

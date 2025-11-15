@@ -6,8 +6,10 @@
     {
         public Suspect(string name, int age, int mood, PersonalityType personality) : base(name, age, mood, personality) { }
 
-        public override void RespondTo(Person questioner, int moodImpact, string approach)
+        public override void RespondTo(Person questioner, string approach, out int moodImpact)
         {
+            Console.WriteLine("DEBUG HERE");
+            moodImpact = 0;
             switch (Personality)
             {
                 case PersonalityType.Hostile:
@@ -18,6 +20,9 @@
                     break;
                 case PersonalityType.Calm:
                     Console.WriteLine($"{Name} looks undisturbed. 'I'm sorry to tell you this, but you have the wrong person here");
+                    break;
+                case PersonalityType.Cooperative:
+                    Console.WriteLine($"{Name} looks eager to help. 'I'm happy to help however I can {questioner.Name}");
                     break;
             }
 

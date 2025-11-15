@@ -15,7 +15,6 @@
             Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
             string approach = Console.ReadLine().ToLower();
 
-            int moodImpact = 0;
             if (person is Suspect)
                 if (approach == "g")
                 {
@@ -42,8 +41,7 @@
                 }
             }
 
-            // Let the person respond, passing the mood impact
-            person.RespondTo(this, moodImpact, approach);
+            person.RespondTo(this, approach, out int moodImpact);
 
             // Adjust Sam’s own reaction depending on how the talk went
             AdjustAfterQuestion(person, moodImpact);
@@ -55,7 +53,7 @@
         {
             if (person is Suspect)
             {
-                if (person.Mood < 40 && moodImpact > 0)
+                if (person.Mood < 40 && moodImpact >= 0)
                 {
                     ChangeMood(+2);
                     Console.WriteLine($"{Name} says: 'We're slowly getting somewhere.'");
@@ -71,10 +69,11 @@
                     ChangeMood(-5);
                     Console.WriteLine($"{Name} says: I'm not doing too well here");
                 }
+
             }
             else if (person is Witness)
             {
-                if (moodImpact > 0)
+                if (moodImpact >= 0)
                 {
                     ChangeMood(+5);
                     Console.WriteLine($"{Name} says: 'Good, I'm working well with this witness—they seem to be relaxing.'");
