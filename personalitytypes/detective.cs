@@ -19,16 +19,18 @@
             while (conversationFlow)
             {
                 
-                steps += 1;
+
                 Console.WriteLine($"DEBUG: Amount of cycles ---{steps}");
 
                 Console.WriteLine($"{Name} is about to question {person.Name}:");
                 Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
                 string approach = Console.ReadLine().ToLower();
 
-                if (string.IsNullOrWhiteSpace(approach)) 
+                if (string.IsNullOrWhiteSpace(approach) || (approach != "g" && approach != "d"))
                 {
-                    Console.WriteLine();
+                    Console.WriteLine("Invalid choice, try 'g' or 'd'.");
+                    continue;
+
                 }
 
                 if (person is Suspect)
@@ -53,17 +55,18 @@
                         Console.WriteLine($"{Name} takes a direct tone...");
                     }
 
-                    else
-                    {
-                        Console.WriteLine($"{Name} hesitates and ends up mumbling an indecipherable jumble of words...");
-                        steps -= 1;
-                    }
                 }
 
-                person.RespondTo(this, approach, out int moodImpact);
+                person.RespondTo(this, approach, steps, out int moodImpact);
 
                 // Adjust Sam’s own reaction depending on how the talk went
                 AdjustAfterQuestion(person, moodImpact);
+                steps += 1;
+
+                if (steps > 4);
+                {
+                    conversationFlow = false;
+                }
 
 
 

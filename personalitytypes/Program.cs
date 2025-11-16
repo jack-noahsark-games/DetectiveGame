@@ -19,7 +19,7 @@ namespace DetectiveGame
 
         Detective sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
         Suspect jake = new Suspect("Jake Miller", 28, 40, Person.PersonalityType.Hostile);
-        Witness clara = new Witness("Clara White", 54, 55, Person.PersonalityType.Cooperative);
+        Witness clara = new Witness("Clara White", 54, 55, Person.PersonalityType.Calm);
 
         public enum GameState
         {
@@ -87,6 +87,7 @@ namespace DetectiveGame
                 else
                 {
                     sam.Question(clara);
+                    sam.Question(jake);
                     Console.WriteLine($"You entered: {input}");
                 }
             }

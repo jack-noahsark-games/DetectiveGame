@@ -32,6 +32,9 @@
 
         public PersonalityType Personality { get; set; }
 
+        public Dictionary<PersonalityType, List<string>> PersonalityDialogue { get; protected set; }
+
+
         public Person(string name, int age, int mood, PersonalityType personality)
         {
             Name = name;
@@ -46,7 +49,7 @@
         }
 
         // Each person can respond when questioned
-        public virtual void RespondTo(Person questioner, string approach, out int moodImpact)
+        public virtual void RespondTo(Person questioner, string approach, int steps, out int moodImpact)
         {
             moodImpact = 0;
             Console.WriteLine($"{Name} says: 'Hello {questioner.Name}.'");

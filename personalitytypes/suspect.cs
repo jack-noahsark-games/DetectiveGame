@@ -4,26 +4,49 @@
 
     class Suspect : Person
     {
-        public Suspect(string name, int age, int mood, PersonalityType personality) : base(name, age, mood, personality) { }
-
-        public override void RespondTo(Person questioner, string approach, out int moodImpact)
+        public Suspect(string name, int age, int mood, PersonalityType personality) 
+            : base(name, age, mood, personality) 
         {
-            Console.WriteLine("DEBUG HERE");
-            moodImpact = 0;
-            switch (Personality)
+            PersonalityDialogue = new Dictionary<PersonalityType, List<string>>()
             {
-                case PersonalityType.Hostile:
-                    Console.WriteLine($"{Name} scowls 'You're talking a load of nonsense you collossal prat'.");
-                    break;
-                case PersonalityType.Nervous:
-                    Console.WriteLine($"{Name} fidgets nervously. 'I... I don't know what you're talking about'");
-                    break;
-                case PersonalityType.Calm:
-                    Console.WriteLine($"{Name} looks undisturbed. 'I'm sorry to tell you this, but you have the wrong person here");
-                    break;
-                case PersonalityType.Cooperative:
-                    Console.WriteLine($"{Name} looks eager to help. 'I'm happy to help however I can {questioner.Name}");
-                    break;
+                {
+                    PersonalityType.Calm,
+                    new List<string>()
+                    {
+                        "Hello detective, I was expecting you to come and visit.",
+                        "Oh, the murder? It was a sad thing indeed. I'm happy to help where I can",
+                        "Well, that night I was down the Three Tuns, so I'm afraid I can't be much help.",
+                        "I don't like your insinuations detective, I think this conversation has come to a close."
+                    }
+                },
+                {
+                    PersonalityType.Hostile,
+                    new List<string>()
+                    {
+                        "What it is detective, I haven't got time for more of your pointless questions",
+                        "That murder had nothing to do with me, I was working that night.",
+                        "I don't let people accuse me of stuff I didn't do, do you understand what I'm saying?",
+                        "For both of our sakes, before this gets out of hand, you best turn around and go"
+                    }
+                }
+            };
+        }
+
+
+
+        public override void RespondTo(Person questioner, string approach, int steps, out int moodImpact)
+        {
+            moodImpact = 0;
+
+            List<string> lines = PersonalityDialogue[Personality];
+
+            if (steps < lines.Count)
+            {
+                Console.WriteLine($"{Name}: {lines[steps]}");
+            }
+            else
+            {
+                Console.WriteLine($"{Name}: I have nothing more to say.");
             }
 
             if (approach == "g") moodImpact += 2;
