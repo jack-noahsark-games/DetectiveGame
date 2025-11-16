@@ -11,41 +11,63 @@
 
         public void Question(Person person)
         {
-            Console.WriteLine($"{Name} is about to question {person.Name}:");
-            Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
-            string approach = Console.ReadLine().ToLower();
 
-            if (person is Suspect)
-                if (approach == "g")
-                {
-                    Console.WriteLine($"{Name} takes a gentle tone...");
-                }
-                else if (approach == "d")
-                {
-                    Console.WriteLine($"{Name} takes a direct tone...");
-                }
-                else
-                {
-                    Console.WriteLine($"{Name} hesitates and ends up mumbling an indecipherable jumble of words...");
-                }
-            if (person is Witness)
+            bool conversationFlow = true;
+
+            int steps = 0;
+
+            while (conversationFlow)
             {
-                if (approach == "g")
+                
+                steps += 1;
+                Console.WriteLine($"DEBUG: Amount of cycles ---{steps}");
+
+                Console.WriteLine($"{Name} is about to question {person.Name}:");
+                Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
+                string approach = Console.ReadLine().ToLower();
+
+                if (string.IsNullOrWhiteSpace(approach)) 
                 {
-                    Console.WriteLine($"{Name} takes a gentle tone...");
+                    Console.WriteLine();
                 }
 
-                else if (approach == "d")
+                if (person is Suspect)
+                    if (approach == "g")
+                    {
+                        Console.WriteLine($"{Name} takes a gentle tone...");
+                    }
+                    else if (approach == "d")
+                    {
+                        Console.WriteLine($"{Name} takes a direct tone...");
+                    }
+
+                if (person is Witness)
                 {
-                    Console.WriteLine($"{Name} takes a direct tone...");
+                    if (approach == "g")
+                    {
+                        Console.WriteLine($"{Name} takes a gentle tone...");
+                    }
+
+                    else if (approach == "d")
+                    {
+                        Console.WriteLine($"{Name} takes a direct tone...");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine($"{Name} hesitates and ends up mumbling an indecipherable jumble of words...");
+                        steps -= 1;
+                    }
                 }
+
+                person.RespondTo(this, approach, out int moodImpact);
+
+                // Adjust Sam’s own reaction depending on how the talk went
+                AdjustAfterQuestion(person, moodImpact);
+
+
+
             }
-
-            person.RespondTo(this, approach, out int moodImpact);
-
-            // Adjust Sam’s own reaction depending on how the talk went
-            AdjustAfterQuestion(person, moodImpact);
-
             Console.WriteLine();
         }
 
