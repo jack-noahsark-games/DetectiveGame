@@ -57,10 +57,7 @@
 
                 }
 
-                person.RespondTo(this, approach, steps, out int moodImpact); //we aren't holding the respondTo method to the object, it just does it once and then moves again, it skips right to jake miller. It then swaps 
-                // between the two because conversationFlow = true so it just iterates between the two. it also isn't adding the steps properly here
-
-                // Adjust Sam’s own reaction depending on how the talk went
+                person.RespondTo(this, approach, steps, out int moodImpact);
                 AdjustAfterQuestion(person, moodImpact);
                 steps += 1;
 

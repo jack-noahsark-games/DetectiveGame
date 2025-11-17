@@ -14,7 +14,6 @@
             get { return _mood; }
             set
             {
-                // Clamp mood to a 1–100 range
                 if (value >= 1 && value <= 100)
                     _mood = value;
                 else
@@ -48,7 +47,6 @@
             Console.WriteLine($"{Name} says hello.");
         }
 
-        // Each person can respond when questioned
         public virtual void RespondTo(Person questioner, string approach, int steps, out int moodImpact)
         {
             moodImpact = 0;

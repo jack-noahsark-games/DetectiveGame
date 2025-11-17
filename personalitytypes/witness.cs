@@ -34,8 +34,6 @@ namespace DetectiveGame
 
         public override void RespondTo(Person questioner, string approach, int steps, out int moodImpact)
         {
-
-        // should i include steps here? and when it reaches a higher amount that the dialogue lines list then we exit out the respond to? i think this is best here.
             moodImpact = 0;
             Console.WriteLine($"DEBUG: {Name} personality is {Personality}");
             int conversationSteps = 0;
