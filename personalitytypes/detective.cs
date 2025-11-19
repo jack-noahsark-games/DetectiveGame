@@ -9,7 +9,7 @@
             Console.WriteLine($"{Name} says: 'I’m investigating a case.'");
         }
 
-        public void Question(Person person)
+        public void Question(Person person, Case jealousMurder)
         {
 
             bool conversationFlow = true;
@@ -18,9 +18,8 @@
 
             while (conversationFlow)
             {
-                
 
-                Console.WriteLine($"DEBUG: Amount of cycles ---{steps}");
+
 
                 Console.WriteLine($"{Name} is about to question {person.Name}:");
                 Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
@@ -33,32 +32,10 @@
 
                 }
 
-                if (person is Suspect)
-                    if (approach == "g")
-                    {
-                        Console.WriteLine($"{Name} takes a gentle tone...");
-                    }
-                    else if (approach == "d")
-                    {
-                        Console.WriteLine($"{Name} takes a direct tone...");
-                    }
-
-                if (person is Witness)
-                {
-                    if (approach == "g")
-                    {
-                        Console.WriteLine($"{Name} takes a gentle tone...");
-                    }
-
-                    else if (approach == "d")
-                    {
-                        Console.WriteLine($"{Name} takes a direct tone...");
-                    }
-
-                }
 
                 person.RespondTo(this, approach, steps, out int moodImpact);
                 AdjustAfterQuestion(person, moodImpact);
+                jealousMurder.ProgressCase(person);
                 steps += 1;
 
                 if (steps >= person.PersonalityDialogue[person.Personality].Count)
@@ -67,6 +44,16 @@
                     Console.WriteLine($"{person.Name} has nothing more to say.");
                     conversationFlow = false;
 
+
+                }
+
+
+                if (person.Mood < 30)
+                {
+                    Console.WriteLine($"{person.Name} has finished the conversation, you have caused their mood to drop too low.");
+                    conversationFlow = false;
+                    jealousMurder.ResetProgress();
+                    
                 }
             }
             Console.WriteLine();
