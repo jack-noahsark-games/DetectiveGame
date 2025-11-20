@@ -1,4 +1,5 @@
-﻿using System;
+﻿//initial commit
+using System;
 namespace DetectiveGame
 {
     class Program
