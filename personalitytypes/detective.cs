@@ -9,7 +9,7 @@
             Console.WriteLine($"{Name} says: 'I’m investigating a case.'");
         }
 
-        public void Question(Person person, Case jealousMurder)
+        public void Question(Person person, Case activeCase)
         {
 
             bool conversationFlow = true;
@@ -35,7 +35,7 @@
 
                 person.RespondTo(this, approach, dialogueIndex, out int moodImpact);
                 AdjustAfterQuestion(person, moodImpact);
-                jealousMurder.ProgressCase(person);
+                activeCase.ProgressCase(person);
                 dialogueIndex += 1;
 
                 if (dialogueIndex >= person.PersonalityDialogue[person.Personality].Count)
@@ -52,7 +52,7 @@
                 {
                     Console.WriteLine($"{person.Name} has finished the conversation, you have caused their mood to drop too low.");
                     conversationFlow = false;
-                    jealousMurder.ResetProgress();
+                    activeCase.ResetProgress();
                     
                 }
             }

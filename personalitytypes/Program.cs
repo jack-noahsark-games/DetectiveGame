@@ -1,5 +1,6 @@
 ﻿//initial commit
 using System;
+using System.Collections.Generic;
 namespace DetectiveGame
 {
     class Program
@@ -8,9 +9,6 @@ namespace DetectiveGame
         {
             Game game = new Game();
             game.Run();
-
-
-
         }
     }
 

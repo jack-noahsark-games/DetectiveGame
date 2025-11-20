@@ -31,7 +31,8 @@
 
         public PersonalityType Personality { get; set; }
 
-        public Dictionary<PersonalityType, List<string>> PersonalityDialogue { get; protected set; }
+        public Dictionary<PersonalityType, Dictionary<string, List<string>>> PersonalityDialogue { get; set; }
+
 
 
         public Person(string name, int age, int mood, PersonalityType personality)
