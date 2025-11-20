@@ -19,7 +19,7 @@ namespace DetectiveGame
         Detective sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
         Suspect jake = new Suspect("Jake Miller", 28, 40, Person.PersonalityType.Hostile);
         Witness clara = new Witness("Clara White", 54, 55, Person.PersonalityType.Calm);
-        Case jealousMurder = new Case("Case #001", "Murder at 14 Brook St.0");
+        Case activeCase = new Case("Case #001", "Murder at 14 Brook St.0");
 
         public enum GameState
         {
@@ -86,8 +86,8 @@ namespace DetectiveGame
 
                 else
                 {
-                    sam.Question(clara, jealousMurder);
-                    sam.Question(jake, jealousMurder);
+                    sam.Question(clara, activeCase);
+                    sam.Question(jake, activeCase);
                     Console.WriteLine($"You entered: {input}");
                 }
             }

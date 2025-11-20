@@ -36,7 +36,6 @@ namespace DetectiveGame
         {
             moodImpact = 0;
             Console.WriteLine($"DEBUG: {Name} personality is {Personality}");
-            int conversationSteps = 0;
             List<string> lines = PersonalityDialogue[Personality];
 
             if (steps < lines.Count)

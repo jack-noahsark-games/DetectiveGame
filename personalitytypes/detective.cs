@@ -14,7 +14,7 @@
 
             bool conversationFlow = true;
 
-            int steps = 0;
+            int dialogueIndex = 0;
 
             while (conversationFlow)
             {
@@ -33,12 +33,12 @@
                 }
 
 
-                person.RespondTo(this, approach, steps, out int moodImpact);
+                person.RespondTo(this, approach, dialogueIndex, out int moodImpact);
                 AdjustAfterQuestion(person, moodImpact);
                 jealousMurder.ProgressCase(person);
-                steps += 1;
+                dialogueIndex += 1;
 
-                if (steps >= person.PersonalityDialogue[person.Personality].Count)
+                if (dialogueIndex >= person.PersonalityDialogue[person.Personality].Count)
                 {
 
                     Console.WriteLine($"{person.Name} has nothing more to say.");
