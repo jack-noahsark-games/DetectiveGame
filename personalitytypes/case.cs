@@ -17,10 +17,8 @@ namespace DetectiveGame
             Description = description;
         }
 
-        public void ProgressCase(Person person)
+        public void ProgressCase(int totalLines)
         {
-            int totalLines = person.PersonalityDialogue[person.Personality].Count;
-
             int increment = 100 / totalLines;
 
             CaseProgress += increment;
@@ -29,8 +27,14 @@ namespace DetectiveGame
             if (CaseProgress >= 100)
             {
                 CaseProgress = 0;
+                Console.WriteLine("Case completed.");
 
             }
+        }
+
+        public void EndCase()
+        {
+
         }
         public void ResetProgress()
         {

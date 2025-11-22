@@ -19,7 +19,7 @@ namespace DetectiveGame
                 "I remember that night well, yes.",
                 "There was shouting coming down that alleyway, behind the Three Tuns.",
                 "Someone ran past me in a hurry.",
-                "Tall mam, it was dark but I saw he had blonde hair with big sideburns."
+                "Tall man, it was dark but I saw he had blonde hair with big sideburns."
             };
 
             PersonalityDialogue[PersonalityType.Calm]["alibi"] = new List<string>()
@@ -58,15 +58,15 @@ namespace DetectiveGame
             };
         }
 
-        public override void RespondTo(Person questioner, string approach, int steps, out int moodImpact)
+        public override void RespondTo(Person questioner, string approach, int dialogueIndex, string topic, out int moodImpact, out List<string> lines)
         {
             moodImpact = 0;
             Console.WriteLine($"DEBUG: {Name} personality is {Personality}");
-            List<string> lines = PersonalityDialogue[Personality][approach];
+            lines = PersonalityDialogue[Personality][topic];
 
-            if (steps < lines.Count)
+            if (dialogueIndex < lines.Count)
             {
-                Console.WriteLine($"{Name}: {lines[steps]}");
+                Console.WriteLine($"{Name}: {lines[dialogueIndex]}");
             }
             else
             {
