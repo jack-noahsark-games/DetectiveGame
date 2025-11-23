@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
-
+//merging topicprototype into master
 namespace DetectiveGame
 {
     class Detective : Person
