@@ -20,6 +20,8 @@ namespace DetectiveGame
         Witness clara = new Witness("Clara White", 54, 55, Person.PersonalityType.Calm);
         Case activeCase = new Case("Case #001", "Murder at 14 Brook St.0");
 
+        Dictionary<string, Person> people = new Dictionary<string, Person>();
+
         public enum GameState
         {
             MainMenu,
@@ -68,10 +70,33 @@ namespace DetectiveGame
             }
         }
 
+        public Person ChoosePerson()
+        {
+            Console.WriteLine("Who do you want to question?");
+
+            foreach (var entry in people)
+            {
+                Console.WriteLine($"- {entry.Key} ({entry.Value.GetType().Name})");
+            }
+
+            Console.WriteLine("\nType their name: ");
+            string choice = Console.ReadLine().ToLower();
+
+            if (people.ContainsKey(choice))
+            {
+                return people[choice];
+            }
+
+            Console.WriteLine("No person with that name.");
+            return null;
+        }
+
         private void RunGameLoop()
         {
             Console.WriteLine("Game has started! Type 'quit' to return to menu.");
             bool playing = true;
+            people["clara"] = clara;
+            people["jake"] = jake;
 
             while (playing)
             {
@@ -85,9 +110,12 @@ namespace DetectiveGame
 
                 else
                 {
-                    sam.Question(clara, activeCase);
-                    sam.Question(jake, activeCase);
-                    Console.WriteLine($"You entered: {input}");
+                    Person target = ChoosePerson();
+
+                    if (target != null)
+                    {
+                        sam.Question(target, activeCase);
+                    }
                 }
             }
         }

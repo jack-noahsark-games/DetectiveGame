@@ -62,46 +62,9 @@ namespace DetectiveGame
 
             return false;
         }
-
-        public void ProcessCaseAfterQuestion()
-        {
-
-        }
-
         public void EndConverstaion(Case activeCase) // maybe don't use this?
         {
             activeCase.ResetProgress();
-        }
-
-
-        public void Question(Person person, Case activeCase)
-        {
-            int dialogueIndex = 0;
-
-            while (true)
-            {
-                string approach = GetApproach();
-                string topic = GetTopic();
-
-                var result = AskQuestionOnce(person, topic, approach, dialogueIndex);
-
-                int moodImpact = result.moodImpact;
-                List<string> lines = result.lines;
-
-                AdjustAfterQuestion(person, moodImpact);
-
-                int totalLines = lines.Count;
-                activeCase.ProgressCase(totalLines);
-
-                dialogueIndex++;
-
-                if (ShouldEndConversation(person, dialogueIndex, totalLines))
-                {
-                    break;
-                }
-                Console.WriteLine();
-
-            }
         }
 
         public void AdjustAfterQuestion(Person person, int moodImpact)
@@ -139,8 +102,39 @@ namespace DetectiveGame
                     Console.WriteLine($"{Name} says: 'Come on! They're a witness—I'm messing this up, they'll clam up soon.'");
                 }
             }
-
-            ShowMood();
         }
+
+
+            public void Question(Person person, Case activeCase)
+        {
+            int dialogueIndex = 0;
+
+            while (true)
+            {
+                string approach = GetApproach();
+                string topic = GetTopic();
+
+                var result = AskQuestionOnce(person, topic, approach, dialogueIndex);
+
+                int moodImpact = result.moodImpact;
+                List<string> lines = result.lines;
+
+                AdjustAfterQuestion(person, moodImpact);
+
+                int totalLines = lines.Count;
+                activeCase.ProgressCase(totalLines);
+
+                dialogueIndex++;
+
+                if (ShouldEndConversation(person, dialogueIndex, totalLines))
+                {
+                    break;
+                }
+                Console.WriteLine();
+
+            }
+        }
+
+        
     }
 }
