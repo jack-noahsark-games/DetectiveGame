@@ -39,8 +39,19 @@ namespace DetectiveGame
 
         public int GetTotalDialogueLines()
         {
-            int value = 5;
-            return value;
+            int totalDialogueLines = 0;
+            Console.WriteLine("=== DEBUG RUNNING GETTOTALLINES ===");
+            foreach (Person npc in RelevantNpc)
+            {
+                foreach (var personalityEntry in npc.PersonalityDialogue)
+                {
+                    foreach (var topicEntry in personalityEntry.Value)
+                    {
+                        totalDialogueLines += topicEntry.Value.Count;
+                    }
+                }
+            }
+            return totalDialogueLines;
         }
 
         public void CaseLoader()

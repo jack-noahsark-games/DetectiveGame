@@ -20,7 +20,7 @@ namespace DetectiveGame
         Witness clara;
         Case activeCase;
 
-        public void SetUp()
+        public void SetUp() //enables me to add clara and jake to the list for activeCase (can't do this in the same section as where you create an object... stupid!)
         {
             sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
             jake = new Suspect("Jake Miller", 28, 70, Person.PersonalityType.Hostile);
@@ -123,6 +123,7 @@ namespace DetectiveGame
 
                     if (target != null)
                     {
+                        Console.WriteLine(activeCase.GetTotalDialogueLines());
                         activeCase.GetRelevantNpcs();
                         sam.Question(target, activeCase);
 
