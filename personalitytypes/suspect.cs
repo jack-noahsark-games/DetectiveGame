@@ -61,7 +61,6 @@ namespace DetectiveGame
         public override void RespondTo(Person questioner, string approach, int dialogueIndex, string topic, out int moodImpact, out List<string> lines)
         {
             moodImpact = 0;
-            Console.WriteLine($"DEBUG: {Name} personality is {Personality}");
             lines = PersonalityDialogue[Personality][topic];
 
             if (dialogueIndex < lines.Count)

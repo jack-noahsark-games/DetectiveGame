@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Design;
-//merging topicprototype into master
 namespace DetectiveGame
 {
     class Detective : Person
@@ -40,7 +39,8 @@ namespace DetectiveGame
             }
         }
 
-        public (int moodImpact, List <string> lines) AskQuestionOnce(Person person, string topic, string approach, int dialogueIndex)
+        public (int moodImpact, List <string> lines) AskQuestionOnce
+            (Person person, string topic, string approach, int dialogueIndex)
         {
             person.RespondTo(this, approach, dialogueIndex, topic, out int moodImpact, out List<string> lines);
             return (moodImpact, lines);
@@ -105,7 +105,7 @@ namespace DetectiveGame
         }
 
 
-            public void Question(Person person, Case activeCase)
+        public void Question(Person person, Case activeCase)
         {
             int dialogueIndex = 0;
 
@@ -115,11 +115,13 @@ namespace DetectiveGame
                 string topic = GetTopic();
 
                 var result = AskQuestionOnce(person, topic, approach, dialogueIndex);
-
                 int moodImpact = result.moodImpact;
                 List<string> lines = result.lines;
 
                 AdjustAfterQuestion(person, moodImpact);
+
+                TryUnlockEvidence(person, activeCase, topic);
+                activeCase.PrintEvidence();
 
                 int totalLines = lines.Count;
                 activeCase.ProgressCase(totalLines);
@@ -135,6 +137,34 @@ namespace DetectiveGame
             }
         }
 
-        
+        public void TryUnlockEvidence(Person person, Case activeCase, string topic)
+        {
+            int mood = person.Mood;
+
+            if (topic == "alibi" && mood >= 60)
+            {
+                var ev = new Evidence(
+                    "Bar Receipt",
+                    $"{person.Name} claims they were at the Three Tuns all night."
+                    );
+                activeCase.AddEvidence(ev);
+            }
+            if (topic == "night" && mood >= 55)
+            {
+                var ev = new Evidence(
+                    "Shouting in Alley",
+                    $"{person.Name} mentioned shouting behind the Three Tuns that night."
+                    );
+                activeCase.AddEvidence(ev);
+            }    
+            if (topic == "victim" && mood >= 50)
+            {
+                var ev = new Evidence(
+                    "Victim with Unknown Man",
+                    $"{person.Name} saw the victim walking with an unidentified man after work."
+                    );
+                activeCase.AddEvidence(ev);
+            }    
+        }
     }
 }

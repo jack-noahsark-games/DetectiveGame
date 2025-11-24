@@ -15,10 +15,18 @@ namespace DetectiveGame
     class Game
     {
 
-        Detective sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
-        Suspect jake = new Suspect("Jake Miller", 28, 40, Person.PersonalityType.Hostile);
-        Witness clara = new Witness("Clara White", 54, 55, Person.PersonalityType.Calm);
-        Case activeCase = new Case("Case #001", "Murder at 14 Brook St.0");
+        Detective sam;
+        Suspect jake;
+        Witness clara;
+        Case activeCase;
+
+        public void SetUp()
+        {
+            sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
+            jake = new Suspect("Jake Miller", 28, 70, Person.PersonalityType.Hostile);
+            clara = new Witness("Clara White", 54, 70, Person.PersonalityType.Calm);
+            activeCase = new Case("Case #001", "Murder at 14 Brook St.", new List<Person> { clara, jake });
+        }
 
         Dictionary<string, Person> people = new Dictionary<string, Person>();
 
@@ -93,6 +101,7 @@ namespace DetectiveGame
 
         private void RunGameLoop()
         {
+            SetUp();
             Console.WriteLine("Game has started! Type 'quit' to return to menu.");
             bool playing = true;
             people["clara"] = clara;
@@ -114,7 +123,9 @@ namespace DetectiveGame
 
                     if (target != null)
                     {
+                        activeCase.GetRelevantNpcs();
                         sam.Question(target, activeCase);
+
                     }
                 }
             }
