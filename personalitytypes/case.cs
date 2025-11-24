@@ -11,16 +11,19 @@ namespace DetectiveGame
 
         public string Description { get; set; }
 
+        public List<Evidence> AvailableEvidence { get; set; } = new List<Evidence>();
+
         public List<Evidence> FoundEvidence { get; } = new List<Evidence>();
 
         public List<Person> RelevantNpc { get; set; } = new List<Person>();
 
         public int CaseProgress { get; private set; } = 0;
-        public Case(string title, string description, List<Person> relevantnpc)
+        public Case(string title, string description, List<Person> relevantnpc, List <Evidence> availableevidence)
         {
             Title = title;
             Description = description;
             RelevantNpc = relevantnpc;
+            AvailableEvidence = availableevidence;
         }
 
         public void ShowCaseDetails()
@@ -52,6 +55,17 @@ namespace DetectiveGame
                 }
             }
             return totalDialogueLines;
+        }
+
+        public int GetTotalEvidenceAmount()
+        {
+            int totalEvidenceCount = 0;
+            foreach (Evidence e in AvailableEvidence)
+            {
+                Console.WriteLine($"===DEBUG : evidence name = {e.Name} ===");
+                totalEvidenceCount = AvailableEvidence.Count;
+            }
+            return totalEvidenceCount;
         }
 
         public void CaseLoader()

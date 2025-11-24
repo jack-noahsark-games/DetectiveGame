@@ -19,13 +19,19 @@ namespace DetectiveGame
         Suspect jake;
         Witness clara;
         Case activeCase;
+        Evidence barReceipt;
+        Evidence victimUnknownMan;
+        Evidence shoutingInAlley;
 
         public void SetUp() //enables me to add clara and jake to the list for activeCase (can't do this in the same section as where you create an object... stupid!)
         {
             sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
             jake = new Suspect("Jake Miller", 28, 70, Person.PersonalityType.Hostile);
             clara = new Witness("Clara White", 54, 70, Person.PersonalityType.Calm);
-            activeCase = new Case("Case #001", "Murder at 14 Brook St.", new List<Person> { clara, jake });
+            barReceipt = new Evidence("Bar receipt: ", "A bar receipt from the Three Tuns pub");
+            victimUnknownMan = new Evidence("Victim seen with unknown man: ", "Victim was seen with an unknown man walking home from work.");
+            shoutingInAlley = new Evidence("Heard shouting in alley", "A man was shouting with the victim behind the Three Tuns Pub");
+            activeCase = new Case("Case #001", "Murder at 14 Brook St.", new List<Person> { clara, jake }, new List<Evidence> { barReceipt, victimUnknownMan, shoutingInAlley});
         }
 
         Dictionary<string, Person> people = new Dictionary<string, Person>();
@@ -123,6 +129,8 @@ namespace DetectiveGame
 
                     if (target != null)
                     {
+                        activeCase.GetTotalEvidenceAmount();
+                        Console.WriteLine(activeCase.GetTotalEvidenceAmount());
                         Console.WriteLine(activeCase.GetTotalDialogueLines());
                         activeCase.GetRelevantNpcs();
                         sam.Question(target, activeCase);
