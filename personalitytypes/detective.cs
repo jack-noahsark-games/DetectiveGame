@@ -143,28 +143,20 @@ namespace DetectiveGame
 
             if (topic == "alibi" && mood >= 60)
             {
-                var ev = new Evidence(
-                    "Bar Receipt",
-                    $"{person.Name} claims they were at the Three Tuns all night."
-                    );
-                activeCase.AddEvidence(ev);
+                var ev = activeCase.GetEvidenceById("bar_receipt"); //pass ID into GetEvidenceById
+                if (ev != null) activeCase.AddEvidence(ev);//add evidence object to the FoundEvidence List
+
             }
             if (topic == "night" && mood >= 55)
             {
-                var ev = new Evidence(
-                    "Shouting in Alley",
-                    $"{person.Name} mentioned shouting behind the Three Tuns that night."
-                    );
-                activeCase.AddEvidence(ev);
+                var ev = activeCase.GetEvidenceById("shouting_in_alley");  //pass ID into GetEvidenceById
+                if (ev != null) activeCase.AddEvidence(ev);//add evidence object to the FoundEvidence List
             }    
             if (topic == "victim" && mood >= 50)
             {
-                var ev = new Evidence(
-                    "Victim with Unknown Man",
-                    $"{person.Name} saw the victim walking with an unidentified man after work."
-                    );
-                activeCase.AddEvidence(ev);
+                var ev = activeCase.GetEvidenceById("victim_unknown_man");  //pass ID into GetEvidenceById
+                if (ev != null) activeCase.AddEvidence(ev); //add evidence object to the FoundEvidence List
             }    
         }
     }
-}
+}   

@@ -98,7 +98,18 @@ namespace DetectiveGame
             CaseProgress = 0;
             Console.WriteLine("Case has been finished early due to poor questioning.");
         }
+        public Evidence GetEvidenceById(string id)
+        {
+            foreach (var evidence in AvailableEvidence)
+            {
+                if (evidence.Id == id)
+                {
+                    return evidence;
+                }
+            }
 
+            return null;
+        }
         public void AddEvidence(Evidence evidence)
         {
             foreach (var existing in FoundEvidence)

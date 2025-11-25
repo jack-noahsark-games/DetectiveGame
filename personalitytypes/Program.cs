@@ -28,9 +28,9 @@ namespace DetectiveGame
             sam = new Detective("Sam Somers", 35, 90, Person.PersonalityType.Calm);
             jake = new Suspect("Jake Miller", 28, 70, Person.PersonalityType.Hostile);
             clara = new Witness("Clara White", 54, 70, Person.PersonalityType.Calm);
-            barReceipt = new Evidence("Bar receipt: ", "A bar receipt from the Three Tuns pub");
-            victimUnknownMan = new Evidence("Victim seen with unknown man: ", "Victim was seen with an unknown man walking home from work.");
-            shoutingInAlley = new Evidence("Heard shouting in alley", "A man was shouting with the victim behind the Three Tuns Pub");
+            barReceipt = new Evidence("bar_receipt","Bar receipt", "A bar receipt from the Three Tuns pub");
+            victimUnknownMan = new Evidence("victim_unknown_man", "Victim seen with unknown man: ", "Victim was seen with an unknown man walking home from work.");
+            shoutingInAlley = new Evidence("shouting_in_alley", "Heard shouting in alley", "A man was shouting with the victim behind the Three Tuns Pub");
             activeCase = new Case("Case #001", "Murder at 14 Brook St.", new List<Person> { clara, jake }, new List<Evidence> { barReceipt, victimUnknownMan, shoutingInAlley});
         }
 
@@ -130,7 +130,6 @@ namespace DetectiveGame
                     if (target != null)
                     {
                         activeCase.GetTotalEvidenceAmount();
-                        Console.WriteLine(activeCase.GetTotalEvidenceAmount());
                         Console.WriteLine(activeCase.GetTotalDialogueLines());
                         activeCase.GetRelevantNpcs();
                         sam.Question(target, activeCase);

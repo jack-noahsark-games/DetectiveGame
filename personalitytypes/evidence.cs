@@ -7,11 +7,14 @@ namespace DetectiveGame
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Id { get; set; }
 
-        public Evidence(string name, string description)
+        public Evidence(string id, string name, string description)
         {
+            Id = id;
             Name = name;
             Description = description;
+
         }
 
         public override string ToString()
