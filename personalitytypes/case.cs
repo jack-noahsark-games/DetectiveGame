@@ -68,14 +68,19 @@ namespace DetectiveGame
             return totalEvidenceCount;
         }
 
-        public void CaseLoader()
+        public int AddDialogueEvidence()
         {
+            int caseTotalLines = GetTotalDialogueLines();
+            int caseTotalEvidence = GetTotalEvidenceAmount();
 
+            int caseTotalElements = caseTotalLines + caseTotalEvidence;
+
+            return caseTotalElements;
         }
 
         public void ProgressCase(int totalLines)
         {
-            int increment = 100 / totalLines;
+            int increment = 100 / GetTotalDialogueLines();
 
             CaseProgress += increment;
             Console.WriteLine($"Case progress: {CaseProgress}%");
