@@ -68,35 +68,10 @@ namespace DetectiveGame
             return totalEvidenceCount;
         }
 
-        public void CaseLoader()
-        {
-
-        }
-
-        public void ProgressCase(int totalLines)
-        {
-            int increment = 100 / totalLines;
-
-            CaseProgress += increment;
-            Console.WriteLine($"Case progress: {CaseProgress}%");
-
-            if (CaseProgress >= 100)
-            {
-                CaseProgress = 0;
-                Console.WriteLine("Case completed.");
-
-            }
-        }
-
         public void EndCase()
         {
             Console.WriteLine("Case completed.");
             PrintEvidence();
-        }
-        public void ResetProgress()
-        {
-            CaseProgress = 0;
-            Console.WriteLine("Case has been finished early due to poor questioning.");
         }
         public Evidence GetEvidenceById(string id)
         {

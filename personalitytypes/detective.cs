@@ -62,10 +62,6 @@ namespace DetectiveGame
 
             return false;
         }
-        public void EndConverstaion(Case activeCase) // maybe don't use this?
-        {
-            activeCase.ResetProgress();
-        }
 
         public void AdjustAfterQuestion(Person person, int moodImpact)
         {
@@ -124,7 +120,6 @@ namespace DetectiveGame
                 activeCase.PrintEvidence();
 
                 int totalLines = lines.Count;
-                activeCase.ProgressCase(totalLines);
 
                 dialogueIndex++;
 
