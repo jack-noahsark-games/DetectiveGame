@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,6 +106,17 @@ namespace personalitytypes
             }
         }
 
+        public int AdjustNpcMood()
+        {
+            int moodImpact = 0;
+
+            if (currentApproach == "g") moodImpact += 2;
+            else if (currentApproach == "d") moodImpact -= 3;
+
+            npc.ChangeMood(moodImpact);
+            return moodImpact;
+        }
+
         public void AdjustDetectiveMood(int moodImpact)
         {
             if (npc is Suspect)
@@ -112,18 +124,18 @@ namespace personalitytypes
                 if (npc.Mood < 40 && moodImpact >= 0)
                 {
                     detective.ChangeMood(+2);
-                    Console.WriteLine($"{detective.Name}===NEW METHOD CHECK=== says: 'We're slowly getting somewhere.'");
+                    Console.WriteLine($"{detective.Name} says: 'We're slowly getting somewhere.'");
                 }
                 else if (npc.Mood > 50 && moodImpact > 0)
                 {
                     detective.ChangeMood(+2);
-                    Console.WriteLine($"{detective.Name}===NEW METHOD CHECK===  says: 'I'm buttering this sucker up big time!'");
+                    Console.WriteLine($"{detective.Name} says: 'I'm buttering this sucker up big time!'");
                 }
 
                 else if (npc.Mood < 50 && moodImpact < 0)
                 {
                     detective.ChangeMood(-5);
-                    Console.WriteLine($"{detective.Name}===NEW METHOD CHECK=== says: I'm not doing too well here");
+                    Console.WriteLine($"{detective.Name} says: I'm not doing too well here");
                 }
 
             }
@@ -132,7 +144,7 @@ namespace personalitytypes
                 if (moodImpact >= 0)
                 {
                     detective.ChangeMood(+5);
-                    Console.WriteLine($"{detective.Name}===NEW METHOD CHECK=== says: 'Good, I'm working well with this witness—they seem to be relaxing.'");
+                    Console.WriteLine($"{detective.Name} says: 'Good, I'm working well with this witness—they seem to be relaxing.'");
                 }
                 else
                 {
@@ -175,7 +187,7 @@ namespace personalitytypes
             {
 
                 Console.WriteLine($"{npc.Name}: {dialogueLines[dialogueIndex]}");
-                npc.RespondTo(detective, currentApproach, out int moodImpact);
+                int moodImpact = AdjustNpcMood(); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
                 AdjustDetectiveMood(moodImpact);
                 TryUnlockEvidence();
                 activeCase.PrintEvidence();
