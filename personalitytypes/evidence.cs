@@ -3,7 +3,7 @@
 
 namespace DetectiveGame
 {
-     class Evidence
+     public class Evidence
     {
         public string Name { get; set; }
         public string Description { get; set; }

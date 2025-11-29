@@ -33,8 +33,6 @@
 
         public Dictionary<PersonalityType, Dictionary<string, List<string>>> PersonalityDialogue { get; set; }
 
-
-
         public Person(string name, int age, int mood, PersonalityType personality)
         {
             Name = name;
@@ -53,6 +51,31 @@
             moodImpact = 0;
             lines = PersonalityDialogue[Personality][topic];
             Console.WriteLine($"{Name} says: 'Hello {questioner.Name}.'");
+        }
+
+        public List<string> GetAvailableTopics()
+        {
+            List<string> topics = new List<string>();
+
+            foreach (var personalityEntry in PersonalityDialogue)
+            {
+                foreach (var topicEntry in personalityEntry.Value)
+                {
+                    string topicName = topicEntry.Key;
+
+                    if (!topics.Contains(topicName))
+                    {
+                        topics.Add(topicName);
+                    }
+                }
+            }
+
+            return topics;
+        }
+
+        public List<string> GetDialogueForTopic(string topic)
+        {
+            return PersonalityDialogue[Personality][topic];
         }
 
         public void ChangeMood(int amount)

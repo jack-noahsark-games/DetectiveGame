@@ -76,7 +76,6 @@ namespace DetectiveGame
             else if (approach == "d") moodImpact -= 3;
 
             ChangeMood(moodImpact);
-            ShowMood();
         }
     }
 }

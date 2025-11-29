@@ -1,8 +1,9 @@
-﻿using System;
+﻿using personalitytypes;
+using System;
 using System.ComponentModel.Design;
 namespace DetectiveGame
 {
-    class Detective : Person
+    public class Detective : Person
     {
         public Detective(string name, int age, int mood, PersonalityType personality) : base(name, age, mood, personality) { }
 
@@ -11,57 +12,7 @@ namespace DetectiveGame
             Console.WriteLine($"{Name} says: 'I’m investigating a case.'");
         }
 
-        public string GetApproach()
-        {
-            while (true)
-            {
-                Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
-                string approach = Console.ReadLine()?.ToLower();
 
-                if (approach == "g" || approach == "d")
-                    return approach;
-
-                Console.WriteLine("Invalid choice, try 'g' or 'd'.");
-            }
-        }
-
-        public string GetTopic()
-        {
-            while (true)
-            {
-                Console.WriteLine("Choose a topic: 'night', 'alibi' or 'victim'");
-                string topic = Console.ReadLine()?.ToLower();
-
-                if (topic == "night" || topic == "alibi" || topic =="victim")
-                    return topic;
-
-                Console.WriteLine("Invalid choice, try 'night', 'alibi' or 'victim'.");
-            }
-        }
-
-        public (int moodImpact, List <string> lines) AskQuestionOnce
-            (Person person, string topic, string approach, int dialogueIndex)
-        {
-            person.RespondTo(this, approach, dialogueIndex, topic, out int moodImpact, out List<string> lines);
-            return (moodImpact, lines);
-        }
-
-        public bool ShouldEndConversation(Person person, int dialogueIndex, int totalLines)
-        {
-            if (dialogueIndex >= totalLines)
-            {
-                Console.WriteLine("Choose a new topic");
-                return true;
-            }
-
-            if (person.Mood < 30)
-            {
-                Console.WriteLine($"{person.Name} has finished the conversation, you have caused their mood to drop too low.");
-                return true;
-            }
-
-            return false;
-        }
 
         public void AdjustAfterQuestion(Person person, int moodImpact)
         {
@@ -103,33 +54,14 @@ namespace DetectiveGame
 
         public void Question(Person person, Case activeCase)
         {
-            int dialogueIndex = 0;
+            var controller = new ConversationController(this, person, activeCase);
 
-            while (true)
+            while (controller.State != DialogueState.ConversationEnded) 
             {
-                string approach = GetApproach();
-                string topic = GetTopic();
-
-                var result = AskQuestionOnce(person, topic, approach, dialogueIndex);
-                int moodImpact = result.moodImpact;
-                List<string> lines = result.lines;
-
-                AdjustAfterQuestion(person, moodImpact);
-
-                TryUnlockEvidence(person, activeCase, topic);
-                activeCase.PrintEvidence();
-
-                int totalLines = lines.Count;
-
-                dialogueIndex++;
-
-                if (ShouldEndConversation(person, dialogueIndex, totalLines))
-                {
-                    break;
-                }
-                Console.WriteLine();
-
+                controller.Tick();
+            
             }
+
         }
 
         public void TryUnlockEvidence(Person person, Case activeCase, string topic)

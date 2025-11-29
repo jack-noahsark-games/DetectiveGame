@@ -2,9 +2,8 @@
 using System.Security.Policy;
 
 namespace DetectiveGame
-//push 
 {
-    class Case
+    public class Case
     {
 
         public string Title { get; set; }
@@ -35,7 +34,6 @@ namespace DetectiveGame
         {
             foreach (Person npc in RelevantNpc)
             {
-                Console.WriteLine("=== DEBUG FOREACH RUNNING === ");
                 Console.WriteLine(npc.Name);
             }
         }
@@ -43,7 +41,6 @@ namespace DetectiveGame
         public int GetTotalDialogueLines()
         {
             int totalDialogueLines = 0;
-            Console.WriteLine("=== DEBUG RUNNING GETTOTALLINES ===");
             foreach (Person npc in RelevantNpc)
             {
                 foreach (var personalityEntry in npc.PersonalityDialogue)
@@ -91,7 +88,6 @@ namespace DetectiveGame
             {
                 if (existing.Name == evidence.Name)
                 {
-                    Console.WriteLine("=== DEBUG === already exists.");
                     return;
                 }
             }
