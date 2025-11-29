@@ -114,12 +114,13 @@ namespace personalitytypes
 
             if (dialogueIndex < dialogueLines.Count)
             {
-                npc.RespondTo(detective, currentApproach, dialogueIndex, currentTopic, out int moodImpact, out List<string> lines);
+
+                Console.WriteLine($"{npc.Name}: {dialogueLines[dialogueIndex]}");
+                npc.RespondTo(detective, currentApproach, out int moodImpact);
                 detective.AdjustAfterQuestion(npc, moodImpact);
                 detective.TryUnlockEvidence(npc, activeCase, currentTopic);
                 Console.WriteLine("\nPress Enter to continue...");
                 Console.ReadLine();
-                Console.WriteLine(dialogueLines[dialogueIndex]);
                 dialogueIndex++;
             }
             else

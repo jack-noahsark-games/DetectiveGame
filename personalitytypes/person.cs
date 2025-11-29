@@ -46,10 +46,9 @@
             Console.WriteLine($"{Name} says hello.");
         }
 
-        public virtual void RespondTo(Person questioner, string approach, int dialogueIndex, string topic, out int moodImpact, out List<string> lines)
+        public virtual void RespondTo(Person questioner, string approach, out int moodImpact)
         {
             moodImpact = 0;
-            lines = PersonalityDialogue[Personality][topic];
             Console.WriteLine($"{Name} says: 'Hello {questioner.Name}.'");
         }
 

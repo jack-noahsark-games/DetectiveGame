@@ -58,19 +58,9 @@ namespace DetectiveGame
             };
         }
 
-        public override void RespondTo(Person questioner, string approach, int dialogueIndex, string topic, out int moodImpact, out List<string> lines)
+        public override void RespondTo(Person questioner, string approach, out int moodImpact)
         {
             moodImpact = 0;
-            lines = PersonalityDialogue[Personality][topic];
-
-            if (dialogueIndex < lines.Count)
-            {
-                Console.WriteLine($"{Name}: {lines[dialogueIndex]}");
-            }
-            else
-            {
-                Console.WriteLine($"{Name}: I have nothing more to say.");
-            }
 
             if (approach == "g") moodImpact += 2;
             else if (approach == "d") moodImpact -= 3;
