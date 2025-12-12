@@ -17,7 +17,6 @@ namespace DetectiveGame
             if (currentTopic == "alibi" && mood >= 60)
             {
                 ev = activeCase.GetEvidenceById("bar_receipt"); //pass ID into GetEvidenceById
-
             }
             else if (currentTopic == "night" && mood >= 55)
             {
