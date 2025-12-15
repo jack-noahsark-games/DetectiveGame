@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -13,6 +14,7 @@ namespace personalitytypes
     public enum DialogueState
     {
         AwaitingTopicSelection,
+        AwaitingApproachSelection,
         InTopic,
         TopicComplete,
         ConversationEnded
@@ -42,7 +44,13 @@ namespace personalitytypes
             switch (State)
             {
                 case DialogueState.AwaitingTopicSelection:
-                    PromptTopicSelection();
+                    BeginTopicSelection();
+                    break;
+
+                case DialogueState.AwaitingApproachSelection:
+                    BeginApproachSelection();
+                    ResetDialogueIndex();
+                    StartTopicConversation();
                     break;
 
                 case DialogueState.InTopic:
@@ -59,20 +67,29 @@ namespace personalitytypes
             }
         }
 
-        private void PromptTopicSelection()
+        private void BeginTopicSelection()
+        {
+            var availableTopics = npc.GetAvailableTopics();
+            PromptTopicSelection(availableTopics);
+            HandleTopicSelection(availableTopics);
+        }
+
+
+        private void PromptTopicSelection(List<string> availableTopics)
         {
             Console.WriteLine("Choose a topic, or choose 'quit' to go back.:");
-
-            var availableTopics = npc.GetAvailableTopics();
 
             foreach (var topic in availableTopics)
             {
                 Console.WriteLine($"- {topic}");
             }
+        }
 
+        private void HandleTopicSelection(List<string> availableTopics) // remember to call this 
+        {
             string choice = Console.ReadLine().ToLower();
 
-            while (!availableTopics.Contains(choice))
+            while (!availableTopics.Contains(choice)) //immediately checks what the player inputs as their choice in the above line.
             {
                 if (choice == "quit")
                 {
@@ -80,23 +97,28 @@ namespace personalitytypes
                     return;
                 }
                 Console.WriteLine("Invalid topic. Try again.");
-                choice = Console.ReadLine().ToLower();
+                choice = Console.ReadLine().ToLower(); //allows user to have another chance to input topic selection
             }
-
-
-            string approach = PromptApproachSelection();
-
-            currentApproach = approach;
             currentTopic = choice;
-            dialogueIndex = 0;
-            State = DialogueState.InTopic;
+            State = DialogueState.AwaitingApproachSelection;
         }
 
-        private string PromptApproachSelection()
+        private void BeginApproachSelection()
+        {
+            PromptApproachSelection();
+            var aproach = HandleApproachSelection();
+            currentApproach = aproach;
+        }
+
+        private void PromptApproachSelection()
+        {
+            Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
+        }
+
+        private string HandleApproachSelection()
         {
             while (true)
             {
-                Console.WriteLine("Choose your approach: (G)entle or (D)irect?");
                 string approach = Console.ReadLine()?.ToLower();
 
                 if (approach == "g" || approach == "d")
@@ -104,6 +126,16 @@ namespace personalitytypes
 
                 Console.WriteLine("Invalid choice, try 'g' or 'd'.");
             }
+        }
+
+        private void ResetDialogueIndex()
+        {
+            dialogueIndex = 0;
+        }
+
+        private void StartTopicConversation()
+        {
+            State = DialogueState.InTopic;
         }
 
         public int AdjustNpcMood()
@@ -205,6 +237,9 @@ namespace personalitytypes
         {
             Console.WriteLine($"You have finished this topic.");
             npc.ShowMood();
+
+            currentTopic = null;
+            currentApproach = null; // we are clearing up the fields so no bugs appear.
             State = DialogueState.AwaitingTopicSelection;
         }
     }
