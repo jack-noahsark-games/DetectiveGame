@@ -32,8 +32,9 @@ namespace personalitytypes
         private Case activeCase;
         private EvidenceSystem evidenceSystem;
         private MoodSystem moodSystem;
+        private DialogueSystem dialogueSystem;
 
-        public ConversationController(Detective detective, Person npc, Case activeCase, EvidenceSystem evidenceSystem, MoodSystem moodSystem)
+        public ConversationController(Detective detective, Person npc, Case activeCase, EvidenceSystem evidenceSystem, MoodSystem moodSystem, DialogueSystem dialogueSystem)
         {
             this.detective = detective;
             this.npc = npc;
@@ -41,6 +42,7 @@ namespace personalitytypes
             State = DialogueState.AwaitingTopicSelection;
             this.evidenceSystem = evidenceSystem;
             this.moodSystem = moodSystem;
+            this.dialogueSystem = dialogueSystem;
         }
 
         public void Tick()
@@ -142,6 +144,15 @@ namespace personalitytypes
             State = DialogueState.InTopic;
         }
 
+        private void TryResolveEvidence()
+        {
+            var ev = evidenceSystem.TryUnlockEvidence(npc, currentTopic, activeCase);
+            if (ev != null)
+            {
+                activeCase.AddEvidence(ev);
+            }
+        }
+
 
         //just need a way now to integrate the advance dialogue stuff with the approach.
         private void AdvanceDialogue()
@@ -153,7 +164,7 @@ namespace personalitytypes
 
                 Console.WriteLine($"{npc.Name}: {dialogueLines[dialogueIndex]}");
                 moodSystem.CalculateMoodImpact(npc, currentTopic, currentApproach); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
-                evidenceSystem.TryUnlockEvidence(npc, currentTopic, activeCase);
+                TryResolveEvidence();
                 activeCase.PrintEvidence();
                 Console.WriteLine("\nPress Enter to continue...");
                 Console.ReadLine();

@@ -1,4 +1,5 @@
 ﻿//initial commit 
+using personalitytypes;
 using System;
 using System.Collections.Generic;
 namespace DetectiveGame
@@ -22,6 +23,9 @@ namespace DetectiveGame
         Evidence barReceipt;
         Evidence victimUnknownMan;
         Evidence shoutingInAlley;
+        MoodSystem moodSystem;
+        EvidenceSystem evidenceSystem;
+        DialogueSystem dialogueSystem;
 
         public void SetUp() //enables me to add clara and jake to the list for activeCase (can't do this in the same section as where you create an object... stupid!)
         {
@@ -32,6 +36,10 @@ namespace DetectiveGame
             victimUnknownMan = new Evidence("victim_unknown_man", "Victim seen with unknown man: ", "Victim was seen with an unknown man walking home from work.");
             shoutingInAlley = new Evidence("shouting_in_alley", "Heard shouting in alley", "A man was shouting with the victim behind the Three Tuns Pub");
             activeCase = new Case("Case #001", "Murder at 14 Brook St.", new List<Person> { clara, jake }, new List<Evidence> { barReceipt, victimUnknownMan, shoutingInAlley});
+            moodSystem = new MoodSystem();
+            evidenceSystem = new EvidenceSystem();
+            dialogueSystem = new DialogueSystem();
+            
         }
 
         Dictionary<string, Person> people = new Dictionary<string, Person>();
@@ -132,7 +140,7 @@ namespace DetectiveGame
                         activeCase.GetTotalEvidenceAmount();
                         Console.WriteLine(activeCase.GetTotalDialogueLines());
                         activeCase.GetRelevantNpcs();
-                        sam.Question(target, activeCase);
+                        sam.Question(target, activeCase, evidenceSystem, moodSystem, dialogueSystem);
 
                     }
                 }

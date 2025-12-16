@@ -14,6 +14,8 @@ namespace DetectiveGame
         private string currentTopic;
 
 
+
+
         public void StartTopic(Person npc, string topic) //load the values 
         {
             this.npc = npc;
