@@ -40,6 +40,7 @@ namespace personalitytypes
             this.activeCase = activeCase;
             State = DialogueState.AwaitingTopicSelection;
             this.evidenceSystem = evidenceSystem;
+            this.moodSystem = moodSystem;
         }
 
         public void Tick()
