@@ -30,13 +30,16 @@ namespace personalitytypes
         private string currentApproach;
         private int dialogueIndex;
         private Case activeCase;
+        private EvidenceSystem evidenceSystem;
+        private MoodSystem moodSystem;
 
-        public ConversationController(Detective detective, Person npc, Case activeCase)
+        public ConversationController(Detective detective, Person npc, Case activeCase, EvidenceSystem evidenceSystem, MoodSystem moodSystem)
         {
             this.detective = detective;
             this.npc = npc;
             this.activeCase = activeCase;
             State = DialogueState.AwaitingTopicSelection;
+            this.evidenceSystem = evidenceSystem;
         }
 
         public void Tick()
@@ -138,77 +141,6 @@ namespace personalitytypes
             State = DialogueState.InTopic;
         }
 
-        public int AdjustNpcMood()
-        {
-            int moodImpact = 0;
-
-            if (currentApproach == "g") moodImpact += 2;
-            else if (currentApproach == "d") moodImpact -= 3;
-
-            npc.ChangeMood(moodImpact);
-            return moodImpact;
-        }
-
-        public void AdjustDetectiveMood(int moodImpact)
-        {
-            if (npc is Suspect)
-            {
-                if (npc.Mood < 40 && moodImpact >= 0)
-                {
-                    detective.ChangeMood(+2);
-                    Console.WriteLine($"{detective.Name} says: 'We're slowly getting somewhere.'");
-                }
-                else if (npc.Mood > 50 && moodImpact > 0)
-                {
-                    detective.ChangeMood(+2);
-                    Console.WriteLine($"{detective.Name} says: 'I'm buttering this sucker up big time!'");
-                }
-
-                else if (npc.Mood < 50 && moodImpact < 0)
-                {
-                    detective.ChangeMood(-5);
-                    Console.WriteLine($"{detective.Name} says: I'm not doing too well here");
-                }
-
-            }
-            else if (npc is Witness)
-            {
-                if (moodImpact >= 0)
-                {
-                    detective.ChangeMood(+5);
-                    Console.WriteLine($"{detective.Name} says: 'Good, I'm working well with this witness—they seem to be relaxing.'");
-                }
-                else
-                {
-                    detective.ChangeMood(-10);
-                    Console.WriteLine($"{detective.Name}===NEW METHOD CHECK=== says: 'Come on! They're a witness—I'm messing this up, they'll clam up soon.'");
-                }
-            }
-        }
-
-        public void TryUnlockEvidence()
-        {
-            int mood = npc.Mood;
-
-            if (currentTopic == "alibi" && mood >= 60)
-            {
-                var ev = activeCase.GetEvidenceById("bar_receipt"); //pass ID into GetEvidenceById
-                if (ev != null) activeCase.AddEvidence(ev);//add evidence object to the FoundEvidence List
-
-            }
-            if (currentTopic == "night" && mood >= 55)
-            {
-                var ev = activeCase.GetEvidenceById("shouting_in_alley");  //pass ID into GetEvidenceById
-                if (ev != null) activeCase.AddEvidence(ev);//add evidence object to the FoundEvidence List
-            }
-            if (currentTopic == "victim" && mood >= 50)
-            {
-                var ev = activeCase.GetEvidenceById("victim_unknown_man");  //pass ID into GetEvidenceById
-                if (ev != null) activeCase.AddEvidence(ev); //add evidence object to the FoundEvidence List
-            }
-        }
-
-
 
         //just need a way now to integrate the advance dialogue stuff with the approach.
         private void AdvanceDialogue()
@@ -219,9 +151,8 @@ namespace personalitytypes
             {
 
                 Console.WriteLine($"{npc.Name}: {dialogueLines[dialogueIndex]}");
-                int moodImpact = AdjustNpcMood(); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
-                AdjustDetectiveMood(moodImpact);
-                TryUnlockEvidence();
+                moodSystem.CalculateMoodImpact(npc, currentTopic, currentApproach); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
+                evidenceSystem.TryUnlockEvidence(npc, currentTopic, activeCase);
                 activeCase.PrintEvidence();
                 Console.WriteLine("\nPress Enter to continue...");
                 Console.ReadLine();
