@@ -13,9 +13,9 @@ namespace DetectiveGame
         }
 
 
-        public void Question(Person person, Case activeCase)
+        public void Question(Person person, Case activeCase, EvidenceSystem evidenceSystem, MoodSystem moodSystem)
         {
-            var controller = new ConversationController(this, person, activeCase);
+            var controller = new ConversationController(this, person, activeCase, evidenceSystem, moodSystem);
 
             while (controller.State != DialogueState.ConversationEnded) 
             {
