@@ -26,6 +26,7 @@ namespace DetectiveGame
         MoodSystem moodSystem;
         EvidenceSystem evidenceSystem;
         DialogueSystem dialogueSystem;
+        CaseGenerator caseGenerator;
 
         public void SetUp() //enables me to add clara and jake to the list for activeCase (can't do this in the same section as where you create an object... stupid!)
         {
@@ -39,6 +40,7 @@ namespace DetectiveGame
             moodSystem = new MoodSystem();
             evidenceSystem = new EvidenceSystem();
             dialogueSystem = new DialogueSystem();
+            caseGenerator = new CaseGenerator();
             
         }
 
@@ -117,6 +119,8 @@ namespace DetectiveGame
         {
             SetUp();
             Console.WriteLine("Game has started! Type 'quit' to return to menu.");
+            TempCase newCase = caseGenerator.GenerateCase();
+            Console.WriteLine($"===DEBUG TempCase object created, showing case Title : {newCase.Titles} ===");
             bool playing = true;
             people["clara"] = clara;
             people["jake"] = jake;
