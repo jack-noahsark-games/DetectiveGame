@@ -108,7 +108,7 @@ namespace DetectiveGame
             Console.WriteLine("\nType their name: ");
             string choice = Console.ReadLine().ToLower();
 
-            if (people.ContainsKey(choice)) //OK so we're checking the hardcoded names in the dictionary here, but, do we want to hardcode a dictionary?
+            if (people.ContainsKey(choice)) //OK so we're checking the hardcoded names in the dictionary here, but, do we want to hardcode a dictionary? No, we want to generate it dynamically based on the npcs in the case.
             {
                 return people[choice];
             }
@@ -132,7 +132,7 @@ namespace DetectiveGame
 
             while (playing)
             {
-                string input = Console.ReadLine(); // this is causing the double enter/key press issue. review later.
+                string input = Console.ReadLine(); // this is causing the double enter/key press issue. review later. we want people to be able to quit, but dont want a pause like this.
 
                 if (input.ToLower() == "quit")
                 {

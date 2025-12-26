@@ -2,6 +2,7 @@
 
 public class CaseGenerator
 {
+    private NPCGenerator npcGenerator = new NPCGenerator ();
     private CaseTemplate template1 = new CaseTemplate
     {
         Titles =
@@ -55,13 +56,14 @@ public class CaseGenerator
         return template1.Locations[0];
     }
 
-    public string GenerateSuspects()
+    public Person GenerateSuspects()
     {
-        return template1.Suspects[0];
+        return npcGenerator.GenerateSuspect(); //remember you are now merging with npc generator for when you come back to this.
     }
 
-    public string GenerateWitnesses()
+    public Person GenerateWitnesses()
     {
+        
         return template1.Witnesses[0];
     }
 

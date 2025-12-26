@@ -43,7 +43,7 @@ namespace DetectiveGame
 
         public string GenerateName()
         {
-            return template1.possibleNames[random.Next(template1.possibleNames.Count)];
+            return template1.possibleNames[random.Next(template1.possibleNames.Count)]; //returns a random name from the possibleNames list.
         }
 
         public int GenerateAge()
@@ -61,10 +61,10 @@ namespace DetectiveGame
 
         public Person.PersonalityType GeneratePersonalityType()
         {
-            return template1.personalityTypes[random.Next(template1.personalityTypes.Count)];
+            return template1.personalityTypes[random.Next(template1.personalityTypes.Count)]; //returns a random personality type from the personalityTypes list.
         }
 
-        public Person GenerateWitness()
+        public Person GenerateWitness() //generates a Witness NPC using the template data.
         {
             string name = GenerateName();
             int age = GenerateAge();
@@ -74,7 +74,7 @@ namespace DetectiveGame
             return new Witness(name, age, mood, personalityType);
          }
 
-        public Person GenerateSuspect()
+        public Person GenerateSuspect() //generates a Suspect NPC using the template data.
         {
             string name = GenerateName();
             int age = GenerateAge();
