@@ -33,7 +33,11 @@ public class CaseGenerator
         {
             "Knife",
             "A snot filled rag"
-        }
+        },
+
+        AmountOfSuspects = 1,
+
+        AmountOfWitnesses = 1
     };
 
     public string GenerateTitle()

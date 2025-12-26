@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace personalitytypes
 {
     public enum DialogueState
@@ -33,6 +34,7 @@ namespace personalitytypes
         private EvidenceSystem evidenceSystem;
         private MoodSystem moodSystem;
         private DialogueSystem dialogueSystem;
+        private List<string> dialogueLines;
 
         public ConversationController(Detective detective, Person npc, Case activeCase, EvidenceSystem evidenceSystem, MoodSystem moodSystem, DialogueSystem dialogueSystem)
         {
@@ -64,7 +66,7 @@ namespace personalitytypes
                     break;
 
                 case DialogueState.TopicComplete:
-                    HandleTopicComplete();
+                    EndTopic();
                     break;
 
                 case DialogueState.ConversationEnded:
@@ -157,23 +159,45 @@ namespace personalitytypes
         //just need a way now to integrate the advance dialogue stuff with the approach.
         private void AdvanceDialogue()
         {
-            var dialogueLines = npc.GetDialogueForTopic(currentTopic);
-
-            if (dialogueIndex < dialogueLines.Count)
-            {
-
-                Console.WriteLine($"{npc.Name}: {dialogueLines[dialogueIndex]}");
-                moodSystem.CalculateMoodImpact(npc, currentTopic, currentApproach); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
-                TryResolveEvidence();
-                activeCase.PrintEvidence();
-                Console.WriteLine("\nPress Enter to continue...");
-                Console.ReadLine();
-                dialogueIndex++;
-            }
-            else
+            dialogueLines = npc.GetDialogueForTopic(currentTopic);    
+            Console.WriteLine(GetNextLine());
+            moodSystem.CalculateMoodImpact(npc, currentTopic, currentApproach); //both giving a value to moodImpact and also running the method here (i dont like this, will look at in future. I want to run the method first, and then store a value after that, rather than two birds with one stone situation here!!!!
+            TryResolveEvidence();
+            activeCase.PrintEvidence();
+            Console.WriteLine("\nPress Enter to continue...");
+            Console.ReadLine();
+        }
+        private string GetNextLine()
+        {
+            if (!HasNextLine())
             {
                 State = DialogueState.TopicComplete;
-            }    
+                return null;
+            }
+            
+            string line = ($"{npc.Name}:{dialogueLines[dialogueIndex]}");
+            
+            dialogueIndex++;
+            return line;
+            
+        }
+        private bool HasNextLine()
+        {
+            if (dialogueLines == null)
+                return false;
+            return dialogueIndex < dialogueLines.Count; //dyanmic true/false return
+        }
+
+        private void EndTopic()
+        {
+            Console.WriteLine($"You have finished this topic.");
+            npc.ShowMood();
+
+            dialogueLines = null;
+            currentTopic = null;
+            currentApproach = null;
+            dialogueIndex = 0;
+            State = DialogueState.AwaitingTopicSelection;
         }
 
         private void HandleTopicComplete()

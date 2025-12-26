@@ -27,6 +27,7 @@ namespace DetectiveGame
         EvidenceSystem evidenceSystem;
         DialogueSystem dialogueSystem;
         CaseGenerator caseGenerator;
+        NPCGenerator npcGenerator;
 
         public void SetUp() //enables me to add clara and jake to the list for activeCase (can't do this in the same section as where you create an object... stupid!)
         {
@@ -41,10 +42,11 @@ namespace DetectiveGame
             evidenceSystem = new EvidenceSystem();
             dialogueSystem = new DialogueSystem();
             caseGenerator = new CaseGenerator();
+            npcGenerator = new NPCGenerator();
             
         }
 
-        Dictionary<string, Person> people = new Dictionary<string, Person>();
+        Dictionary<string, Person> people = new Dictionary<string, Person>(); //creates an empty dictionary and we add to it later on, this could do with changing.
 
         public enum GameState
         {
@@ -94,19 +96,19 @@ namespace DetectiveGame
             }
         }
 
-        public Person ChoosePerson()
+        public Person ChoosePerson() // should be moved to another class later, also it is doing too much, handle input should be separate.
         {
             Console.WriteLine("Who do you want to question?");
 
             foreach (var entry in people)
             {
-                Console.WriteLine($"- {entry.Key} ({entry.Value.GetType().Name})");
+                Console.WriteLine($"- {entry.Key} ({entry.Value.GetType().Name})"); //gets the type of person (witness/suspect) dynamically
             }
 
             Console.WriteLine("\nType their name: ");
             string choice = Console.ReadLine().ToLower();
 
-            if (people.ContainsKey(choice))
+            if (people.ContainsKey(choice)) //OK so we're checking the hardcoded names in the dictionary here, but, do we want to hardcode a dictionary?
             {
                 return people[choice];
             }
@@ -115,19 +117,22 @@ namespace DetectiveGame
             return null;
         }
 
-        private void RunGameLoop()
+        private void RunGameLoop() //too many responsibilities, needs to be broken up later - Should not be creating things here!
         {
             SetUp();
             Console.WriteLine("Game has started! Type 'quit' to return to menu.");
-            TempCase newCase = caseGenerator.GenerateCase();
-            Console.WriteLine($"===DEBUG TempCase object created, showing case Title : {newCase.Titles} ===");
+            TempCase newCase = caseGenerator.GenerateCase();// temporary code to test case generation
+            Person witness1 = npcGenerator.GenerateWitness(); //temporary code to test npc generation
+            Console.WriteLine($"{witness1.GetType()}");//temporary debug line
+            Console.WriteLine($"{witness1.Name} {witness1.Age} {witness1.Mood} {witness1.Personality}"); //temporary debug line
+            Console.WriteLine($"===DEBUG TempCase object created, showing case Title : {newCase.Titles} ==="); //temporary debug line
             bool playing = true;
-            people["clara"] = clara;
-            people["jake"] = jake;
+            people["clara"] = clara; //ok we are assigning a key to each person object here. We do this so when we make a choice, it points to the right object.
+            people["jake"] = jake; //do we need to be doing this here? Can we do it somewhere else?
 
             while (playing)
             {
-                string input = Console.ReadLine();
+                string input = Console.ReadLine(); // this is causing the double enter/key press issue. review later.
 
                 if (input.ToLower() == "quit")
                 {

@@ -21,7 +21,7 @@
             }
         }
 
-        public enum PersonalityType
+        public enum PersonalityType //plural property of personalities
         {
             Calm,
             Nervous,
@@ -29,7 +29,7 @@
             Cooperative
         }
 
-        public PersonalityType Personality { get; set; }
+        public PersonalityType Personality { get; set; } //singular way of defining a personality for a person
 
         public Dictionary<PersonalityType, Dictionary<string, List<string>>> PersonalityDialogue { get; set; }
 
