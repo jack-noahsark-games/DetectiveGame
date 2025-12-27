@@ -14,9 +14,9 @@ namespace DetectiveGame
 
         public List<string> Locations { get; set; } = new();
 
-        public List<string> Suspects { get; set; } = new();
+        public List<Person> Suspects { get; set; } = new();
 
-        public List<string> Witnesses { get; set; } = new();
+        public List<Person> Witnesses { get; set; } = new();
 
         public List<string> EvidenceItems { get; set; } = new();
 

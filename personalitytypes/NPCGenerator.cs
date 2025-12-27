@@ -64,7 +64,7 @@ namespace DetectiveGame
             return template1.personalityTypes[random.Next(template1.personalityTypes.Count)]; //returns a random personality type from the personalityTypes list.
         }
 
-        public Person GenerateWitness() //generates a Witness NPC using the template data.
+        public List<Person> GenerateWitness() //generates a Witness NPC using the template data.
         {
             string name = GenerateName();
             int age = GenerateAge();
@@ -74,7 +74,7 @@ namespace DetectiveGame
             return new Witness(name, age, mood, personalityType);
          }
 
-        public Person GenerateSuspect() //generates a Suspect NPC using the template data.
+        public List<Person> GenerateSuspect() //generates a Suspect NPC using the template data.
         {
             string name = GenerateName();
             int age = GenerateAge();

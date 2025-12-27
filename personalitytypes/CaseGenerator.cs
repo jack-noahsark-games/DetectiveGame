@@ -20,15 +20,15 @@ public class CaseGenerator
             "The Three Tuns Pub",
             "The Alley"
         },
+        
         Suspects =
         {
-            "Michael Barrymore",
-            "Vincent Screwloose"
+            
         },
+
         Witnesses =
         {
-            "Barbara Windsor",
-            "Codesworth Prinkletop"
+
         },
         EvidenceItems =
         {
@@ -64,7 +64,7 @@ public class CaseGenerator
     public Person GenerateWitnesses()
     {
         
-        return template1.Witnesses[0];
+        return npcGenerator.GenerateWitness();
     }
 
     public string GenerateEvidenceItems()
@@ -77,8 +77,8 @@ public class CaseGenerator
         string titles = GenerateTitle();
         string descriptions = GenerateDescription();
         string locations = GenerateLocations();
-        string suspects = GenerateSuspects();
-        string witnesses = GenerateWitnesses();
+        List<Person> suspects = GenerateSuspects();
+        List<Person> witnesses = GenerateWitnesses();
         string evidenceItems = GenerateEvidenceItems();
 
         return new TempCase(titles, descriptions, locations, suspects, witnesses, evidenceItems);

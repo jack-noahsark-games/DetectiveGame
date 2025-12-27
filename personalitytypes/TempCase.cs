@@ -14,15 +14,15 @@ namespace DetectiveGame
 
         public string Locations { get; set; }
 
-        public string Suspects { get; set; }
+        public List<Person> Suspects { get; set; }
 
-        public string Witnesses { get; set; }
+        public List<Person> Witnesses { get; set; }
 
         public string EvidenceItems { get; set; }
 
 
 
-    public TempCase(string titles, string descriptions, string locations, string suspects, string witnesses, string evidenceItems)
+    public TempCase(string titles, string descriptions, string locations, List<Person> suspects, List<Person> witnesses, string evidenceItems)
         {
             Titles = titles;
             Descriptions = descriptions;
